@@ -20,6 +20,7 @@
     {{-- datatable --}}
 
     <link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
+    @livewireStyles
 </head>
 <body>
 
@@ -708,6 +709,18 @@
 
 				</ul>
 			   </li>
+
+
+               <li><a class="has-arrow ai-icon"  aria-expanded="false">
+                <i class="material-symbols-outlined"> note_alt </i>
+
+                <span class="nav-text">Coupon Genarate</span>
+            </a>
+            <ul aria-expanded="false">
+                <li><a href="{{ route('coupon.index') }}">Coupon List</a></li>
+
+            </ul>
+           </li>
 				@endif
 
                 </ul>
@@ -843,5 +856,6 @@
     {{-- Datatable --}}
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     @yield('footer_script')
+    @livewireScripts
 </body>
 </html>

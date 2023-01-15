@@ -2,9 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\{HomeController,DashboardController,Customer_loginController,CategoryController, Clinet_massageController, FrontendController, ProductController, ServiceController, SponsorController, VendorManageController};
+use App\Http\Controllers\{HomeController,DashboardController,Customer_loginController,CategoryController, Clinet_massageController, CouponController, FrontendController, ProductController, ServiceController, SponsorController, VendorManageController};
 use App\Models\Category;
-
+use App\Models\Coupon;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,6 +76,11 @@ Route::middleware(['isnotadmin'])->group(function () {
     Route::get('/products/inventory/{id}', [ProductController::class, 'inventory_add'])->name('products.inventory.add');
     Route::post('/products/inventory/add/{id}', [ProductController::class, 'inventory_add_post'])->name('products.inventory.post');
     // Product end
+
+    // Coupon Genarating part start
+    Route::resource('/coupon', CouponController::class);
+    // Route::post('apply/coupon', [CouponController::class, 'apply_coupon'])->name('apply.coupon');
+    // Coupon Genarating part end
 
     // Vendor Dashboard Items end
 

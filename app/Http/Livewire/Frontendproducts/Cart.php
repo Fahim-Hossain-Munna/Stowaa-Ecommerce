@@ -100,7 +100,6 @@ class Cart extends Component
                     'color_id' => $this->inventory_id->color_id,
                     'quantity' => $this->count,
                     'unit_price' => $this->unit_price,
-                    'total_price' => $this->unit_price,
                     'created_at' => Carbon::now()
                 ]);
             }else{
@@ -113,7 +112,6 @@ class Cart extends Component
                 'color_id' => $this->inventory_id->color_id,
                 'quantity' => $this->count,
                 'unit_price' => $this->unit_price,
-                'total_price' => $this->total_price,
                 'created_at' => Carbon::now()
             ]);
             }

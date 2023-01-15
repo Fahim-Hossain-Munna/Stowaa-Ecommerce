@@ -1,6 +1,10 @@
 @extends('layouts.frontend_master')
-
 @section('content')
+    <style>
+        .halka_lal{
+            background: rgba(201, 131, 131, 0.541);
+        }
+    </style>
 
 <!-- breadcrumb_section - start
             ================================================== -->
@@ -35,15 +39,27 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @php
+                                $subtotal = 0;
+                                @endphp
                                 @forelse ($carts as $cart)
-                                <tr>
+                                {{-- @php
+                                    if(getAvailableQuantity($cart->product_id,$cart->color_id,$cart->size_id)){
+                                        $error = true;
+                                    }
+                                @endphp --}}
+                                <tr class="{{getAvailableQuantity($cart->product_id,$cart->color_id,$cart->size_id) < $cart->quantity ? "halka_lal" : ""  }} ">
                                       <td>
                                           <div class="cart_product">
                                               <img src="{{ asset('all_images/vendor_products') }}/{{ $cart->ProductTableRelation->product_picture }}" alt="image_not_found">
                                               <h3><a href="{{ route('product.details', $cart->product_id) }}" target="_blank">{{ $cart->ProductTableRelation->product_name }}</a></h3>
+                                              @if (getAvailableQuantity($cart->product_id,$cart->color_id,$cart->size_id) < $cart->quantity)
+                                              <h3 class="text-danger">Total Stock: {{ getAvailableQuantity($cart->product_id,$cart->color_id,$cart->size_id) }} {{ $cart->quantity }} </h3>
+                                            @endif
                                           </div>
                                       </td>
-                                      <td class="text-center"><span class="price_text text-success">{{ $cart->VendorTableRelation->name }}</span></td>
+                                </div>
+                                      <td class="text-center"><span class="price_text text-success">{{ $cart->VendorTableRelation->name }} </span></td>
                                       <td class="text-center"><span class="price_text">{{ $cart->SizeTableRelation->size_name }}</span></td>
                                       <td class="text-center"><span class="price_text badge rounded-pill" style="background: {{ $cart->ColorTableRelation->color_code }};">&nbsp</span> <span class="price_text">{{ $cart->ColorTableRelation->color_name }}</span>  </td>
                                       <td class="text-center"><span class="price_text">৳ {{ $cart->unit_price }}</span></td>
@@ -58,10 +74,15 @@
                                                       <i class="fal fa-plus"></i>
                                                   </button> --}}
                                                   <h3> {{ $cart->quantity }} </h3>
+
                                               </div>
                                           </form>
                                       </td>
                                       <td class="text-center"><span class="price_text">৳ {{ $cart->unit_price*$cart->quantity }}</span></td>
+                                      @php
+                                        $subtotal += $cart->unit_price*$cart->quantity;
+                                        getAvailableQuantity($cart->product_id,$cart->color_id,$cart->size_id);
+                                      @endphp
                                       <td class="text-center"><button type="button" class="remove_btn"><i class="fal fa-trash-alt"></i></button></td>
                                     </tr>
                                     @empty
@@ -88,69 +109,9 @@
                         </table>
                     </div>
 
-                    <div class="cart_btns_wrap">
-                        <div class="row">
-                            <div class="col col-lg-6">
-                                <form action="#">
-                                    <div class="coupon_form form_item mb-0">
-                                        <input type="text" name="coupon" placeholder="Coupon Code...">
-                                        <button type="submit" class="btn btn_dark">Apply Coupon</button>
-                                        <div class="info_icon">
-                                            <i class="fas fa-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Your Info Here"></i>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
+                    @livewire('frontendproducts.apply-coupon')
 
-                            <div class="col col-lg-6">
-                                <ul class="btns_group ul_li_right">
-                                    <li><a class="btn border_black" href="#!">Update Cart</a></li>
-                                    <li><a class="btn btn_dark" href="#!">Prceed To Checkout</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="col col-lg-6">
-                            <div class="calculate_shipping">
-                                <h3 class="wrap_title">Calculate Shipping <span class="icon"><i class="far fa-arrow-up"></i></span></h3>
-                                <form action="#">
-                                    <div class="select_option clearfix">
-                                        <select>
-                                            <option value="">Select Your Option</option>
-                                            <option value="1">Inside City</option>
-                                            <option value="2">Outside City</option>
-                                        </select>
-                                    </div>
-                                    <br>
-                                    <button type="submit" class="btn btn_primary rounded-pill">Update Total</button>
-                                </form>
-                            </div>
-                        </div>
-
-                        <div class="col col-lg-6">
-                            <div class="cart_total_table">
-                                <h3 class="wrap_title">Cart Totals</h3>
-                                <ul class="ul_li_block">
-                                    <li>
-                                        <span>Cart Subtotal</span>
-                                        <span>$52.50</span>
-                                    </li>
-                                    <li>
-                                        <span>Delivery Charge</span>
-                                        <span>$5</span>
-                                    </li>
-                                    <li>
-                                        <span>Order Total</span>
-                                        <span class="total_price">$57.50</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
             <!-- cart_section - end
             ================================================== -->
 

@@ -109,7 +109,7 @@
                             <form action="#">
                                 <div class="advance_serach">
                                     <div class="select_option mb-0 clearfix">
-                                        <select>
+                                        <select class="form-select">
                                             <option data-display="All Categories">Select A Category</option>
                                                 <option value="1"> ---- </option>
 
@@ -135,10 +135,12 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <span class="cart_icon">
-                                            <i class="icon icon-ShoppingCart"></i>
-                                            <small class="cart_counter">3</small>
-                                        </span>
+                                        <a href="{{ route('product.add.cart') }}">
+                                            <span class="cart_icon">
+                                                <i class="icon icon-ShoppingCart"></i>
+                                                <small class="cart_counter">{{ total_cart_details() }}</small>
+                                            </span>
+                                        </a>
                                     </li>
                                </ul>
                             </button>
@@ -206,6 +208,7 @@
                             @guest
                             <ul class="header_icons_group ul_li_right">
                                  <li>
+                                    <span class="text text-danger fs-6">Customer</span>
                                     <a href="{{ route('customer.login.register') }}">login/register</a>
                                 </li>
                                 <li>
