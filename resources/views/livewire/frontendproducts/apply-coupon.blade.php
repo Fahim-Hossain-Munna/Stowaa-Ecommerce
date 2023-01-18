@@ -43,7 +43,9 @@
                     @if ($cart_error)
                     <li><a class="btn btn-danger" href="#!">Can't Prceed To Checkout</a></li>
                      @else
-                    <li><a class="btn btn_dark" href="#!">Prceed To Checkout</a></li>
+                        @if ($shipping_charge != 0)
+                        <li><a class="btn btn_dark" href="{{ route('product.checkout') }}">Prceed To Checkout</a></li>
+                        @endif
                     @endif
                 </ul>
             </div>
@@ -57,15 +59,14 @@
                 <form action="#">
                     <div class="select_option clearfix">
                        <div class="col-6">
-                        <select class="form-select">
-                            <option value="">Select Your Option</option>
-                            <option value="1">Inside City</option>
-                            <option value="2">Outside City</option>
+                        <select class="form-select" wire:model='shipping_dropdown'>
+                            <option value="0">Select Your Option</option>
+                            @foreach ($shipping_items as $shipping_item)
+                            <option value="{{ $shipping_item->id }}">{{ $shipping_item->shipping_type }}</option>
+                            @endforeach
                         </select>
                        </div>
                     </div>
-                    <br>
-                    <button type="submit" class="btn btn_primary rounded-pill">Update Total</button>
                 </form>
             </div>
         </div>
@@ -80,12 +81,25 @@
 
                     </li>
                     <li>
-                        <span>Delivery Charge</span>
-                        <span>$5</span>
+                        <span>Discount Amount(-)</span>
+                        <span class="total_price">${{ $how_much_discount }}  </span>
                     </li>
                     <li>
                         <span>After Discount Total</span>
                         <span class="total_price">${{  $after_discount }}</span>
+                    </li>
+                    <li>
+                        <span>Delivery Charge</span>
+                        <span>${{ $shipping_charge }}</span>
+                    </li>
+                    <li>
+                        <span>Round Total Amount</span>
+                        {{-- <span class="total_price">${{  $after_discount }}</span> --}}
+                        @if ($after_discount == 0)
+                        <span>${{ $subtotal+$shipping_charge }}</span>
+                        @else
+                        <span class="total_price">${{  $after_discount+$shipping_charge }}</span>
+                        @endif
                     </li>
                 </ul>
             </div>

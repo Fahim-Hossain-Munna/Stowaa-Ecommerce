@@ -69,5 +69,20 @@ class FrontendController extends Controller
 
         return view('frontend_folders.product_cart', compact('carts'));
     }
+    public function product_delete_cart($id){
+
+         Addcart::find($id)->delete();
+        return back();
+    }
+    public function product_checkout(){
+
+        $restrict_user_url = explode('/', url()->previous());
+
+        if(end($restrict_user_url) == 'cart'){
+            return 'ami aschi';
+        }else{
+            abort(404);
+        }
+    }
 
 }

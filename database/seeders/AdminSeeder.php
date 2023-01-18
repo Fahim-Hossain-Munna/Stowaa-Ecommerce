@@ -8,20 +8,19 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-class DatabaseSeeder extends Seeder
+class AdminSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Run the database seeds.
      *
      * @return void
      */
     public function run()
     {
-        $this->call([
-            AdminSeeder::class,
-            ShippingSeeder::class,
+        DB::table('users')->insert([
+            'name' => "Super Admin",
+            'email' => 'admin@dev.com',
+            'password' => Hash::make('123456789'),
         ]);
-        // \App\Models\User::factory(10)->create();
-
     }
 }

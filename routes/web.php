@@ -28,6 +28,8 @@ Route::post('/contact',  [FrontendController::class, 'contact_page_post'])->name
 Route::get('/product/details/{id}',  [FrontendController::class, 'product_details'])->name('product.details');
 Route::get('/category/grid/{id}',  [FrontendController::class, 'category_grid'])->name('category.grid');
 Route::get('/product/cart',  [FrontendController::class, 'product_add_cart'])->name('product.add.cart');
+Route::post('/product/cart/delete/{id}',  [FrontendController::class, 'product_delete_cart'])->name('product.cart.delete');
+Route::get('/product/checkout/page',  [FrontendController::class, 'product_checkout'])->name('product.checkout');
 
 // website view controller
 

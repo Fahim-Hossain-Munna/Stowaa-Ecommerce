@@ -83,7 +83,12 @@
                                         $subtotal += $cart->unit_price*$cart->quantity;
                                         getAvailableQuantity($cart->product_id,$cart->color_id,$cart->size_id);
                                       @endphp
-                                      <td class="text-center"><button type="button" class="remove_btn"><i class="fal fa-trash-alt"></i></button></td>
+                                      <td class="text-center">
+                                      <form action="{{ route('product.cart.delete',$cart->id) }}" method="POST">
+                                        @csrf
+                                      <button type="submit" class="remove_btn"><i class="fal fa-trash-alt"></i></button>
+                                      </form>
+                                    </td>
                                     </tr>
                                     @empty
 
