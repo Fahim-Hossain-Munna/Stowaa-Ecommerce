@@ -211,8 +211,8 @@
                             @guest
                             <ul class="header_icons_group ul_li_right">
                                  <li>
-                                    <span class="text text-danger fs-6">Customer</span>
-                                    <a href="{{ route('customer.login.register') }}">login/register</a>
+                                    <a href="{{ route('customer.login.register') }}" class="text text-danger fs-6">Customer Registration</a>
+                                    {{-- <a href="{{ route('customer.login.register') }}">login/register</a> --}}
                                 </li>
                                 <li>
                                     <a href="{{ route('customer.login.register') }}">
