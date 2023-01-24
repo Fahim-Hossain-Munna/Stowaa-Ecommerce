@@ -33,7 +33,7 @@
                      <td scope="row">{{ $item->product_regular_price }}</td>
                      <td scope="row" class="text-center"> <span class="badge bg-info"> {{ $item->CategoryTableRelation->category_name }} </span> </td>
                      {{-- App\Models\Category::find($item->category_id)->category_name --}}
-                     <td scope="row">{{ $item->product_description }}</td>
+                     <td scope="row">{{ Str::limit($item->product_description, 300) }}</td>
                      <td scope="row"><div class="d-flex justify-content-center">@empty ($item->product_picture) <img src="{{ Avatar::create($item->product_name)->toBase64() }}" width="70" />  @else  <img src="{{ asset('all_images/vendor_products') }}/{{ $item->product_picture }}" class="rounded-lg mr-2" width="50" alt=""> @endempty</div></td>
                      <td scope="row"> <a href="{{ route('products.inventory.add' , $item->id ) }}" class="btn btn-info btn-sm"> Select Inventory </a> </td>
                      <td scope="row">

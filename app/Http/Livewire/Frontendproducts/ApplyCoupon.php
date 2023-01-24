@@ -23,8 +23,10 @@ class ApplyCoupon extends Component
         $this->shipping_charge = $id;
         if($id == 0){
             $this->shipping_charge = 0;
+            session(['shipping_charge' => 0]);
         }else{
             $this->shipping_charge = ShippingCharge::findOrFail($id)->shipping_charge;
+            session(['shipping_charge' => ShippingCharge::findOrFail($id)->shipping_charge]);
         }
     }
 
@@ -32,10 +34,14 @@ class ApplyCoupon extends Component
     public function applycoupon($vendor_id , $subtotal){
         if(!$this->coupon){
             $this->error = 'coupon field cant empty';
+            session(['after_discount' => '']);
+            session(['how_much_discount' => '']);
+            session(['coupon_name' => '']);
         }else{
             $this->error = '';
             if(Coupon::where('coupon_name' , $this->coupon)->exists()){
                 $coupon = Coupon::where('coupon_name' , $this->coupon)->first();
+                session(['coupon_name' => $coupon->coupon_name]);
                 if($coupon->vendor_id != $vendor_id){
                     $this->error = 'wrong vendor coupon';
                 }else{
@@ -43,10 +49,14 @@ class ApplyCoupon extends Component
                         // $this->error = "all okay tk besi ase";
                         if($coupon->discount_type == 'Flat Discount' ){
                             $this->after_discount = $subtotal - $coupon->coupon_value;
+                            session(['after_discount' => $subtotal - $coupon->coupon_value]);
                             $this->how_much_discount = $subtotal - $this->after_discount;
+                            session(['how_much_discount' => $subtotal - $this->after_discount]);
                         }else{
                             $this->after_discount = $subtotal-($coupon->coupon_value*$subtotal)/100;
+                            session(['after_discount' => $subtotal-($coupon->coupon_value*$subtotal)/100]);
                             $this->how_much_discount = $subtotal - $this->after_discount;
+                            session(['how_much_discount' => $subtotal - $this->after_discount]);
                         }
                     }else{
                         $this->error = "your purchase amount is too short";

@@ -183,11 +183,11 @@
                                                 @endif
 
                                                 @if ($product->product_discunted_price)
-                                                    <span class="theme-badge-2">{{ Str::limit(($product->product_discunted_price/$product->product_regular_price )*100 , 5) }}%</span>
+                                                    <span class="theme-badge-2">{{ Str::limit(($product->product_regular_price-$product->product_discunted_price)/$product->product_regular_price*100, 5) }}%</span>
                                                 @endif
                                             </div>
                                             <div class="details">
-                                                <h4><a href="{{ route('product.details', $product->id ) }}">{{ $product->product_name }}</a></h4>
+                                                <h4><a href="{{ route('product.details', $product->id ) }}">{{ Str::limit($product->product_name, 20) }}</a></h4>
                                                 <p><a href="{{ route('product.details', $product->id ) }}">{{ Str::limit($product->product_description , 50) }} </a></p>
                                                 <div class="rating">
                                                     <i class="fas fa-star"></i>

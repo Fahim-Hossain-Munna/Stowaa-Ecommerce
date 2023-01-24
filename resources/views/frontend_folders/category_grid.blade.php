@@ -59,7 +59,7 @@
                                                             <img src="{{ Avatar::create($item->product_name)->toBase64() }}" width="70" alt='no image found'>
                                                         @endif
                                                         @if ($product->product_discunted_price)
-                                                            <span class="theme-badge-2">{{ Str::limit(($product->product_discunted_price/$product->product_regular_price )*100 , 5) }}%</span>
+                                                            <span class="theme-badge-2">{{ Str::limit(($product->product_regular_price-$product->product_discunted_price)/$product->product_regular_price*100, 5) }}%</span>
                                                         @endif
                                                     </div>
                                                     <div class="details">

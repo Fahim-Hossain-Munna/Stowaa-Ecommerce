@@ -2,6 +2,7 @@
     @php
         $subtotal = 0 ;
         $cart_error = false;
+        $id = 0 ;
         $inventories = App\Models\Inventory::all();
         foreach ($inventories as $inventory) {
             $func = getAvailableQuantity($inventory->product_id,$inventory->color_id,$inventory->size_id);
@@ -9,18 +10,21 @@
                 'product_id' => $inventory->product_id,
                 'color_id' =>  $inventory->color_id,
                 'size_id' => $inventory->size_id,
-            ])->get();
+            ])->first('quantity');
+            // echo $carts;
         }
-         $carts->first()->quantity;
-         if($func < $carts->first()->quantity){
-            $cart_error = true;
-         }
+        foreach ($carts as $cart) {
+
+            if($func < $cart){
+               $cart_error = true;
+            }
+        }
         foreach ($alls as $all) {
            $subtotal += $all->unit_price*$all->quantity;
+            $id = $all->vendor_id;
         }
+        session(['subtotal' => $subtotal]);
     @endphp
-
-
 
     <div class="cart_btns_wrap">
         <div class="row">
@@ -28,11 +32,12 @@
                 <form>
                     <div class="coupon_form form_item mb-0">
                         <input type="text" wire:model="coupon" name="coupon" placeholder="Coupon Code...">
-                        <button type="button" wire:click="applycoupon({{$alls->first()->vendor_id}},{{$subtotal}})" class="btn btn_dark">Apply Coupon</button>
+                        <button type="button" wire:click="applycoupon({{ $id }},{{$subtotal}})" class="btn btn_dark">Apply Coupon</button>
                         {{-- <div class="info_icon">
                             <i class="fas fa-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Your Info Here"></i>
                         </div> --}}
                     </div>
+
                     <small class="text-danger">{{ $error }}</small>
                 </form>
             </div>
@@ -82,7 +87,13 @@
                     </li>
                     <li>
                         <span>Discount Amount(-)</span>
-                        <span class="total_price">${{ $how_much_discount }}  </span>
+                        <span class="total_price">
+                            @if ($how_much_discount == 0)
+                            ${{ $how_much_discount }} {{ session()->forget('coupon_name') }}
+                            @else
+                            ${{ $how_much_discount }} {{ session('coupon_name') }}
+                            @endif
+                        </span>
                     </li>
                     <li>
                         <span>After Discount Total</span>
