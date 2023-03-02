@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -27,8 +28,8 @@ class HomeController extends Controller
 
 
         if(auth()->user()->role == 'customer'){
-
-            return view('customer_dashboard');
+            $totalOders = Invoice::where('customer_id',auth()->id())->get();
+            return view('customer_dashboard',compact('totalOders'));
         }else{
 
             return view('home');

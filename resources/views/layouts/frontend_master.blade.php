@@ -397,6 +397,7 @@
     <!-- custom - main-js -->
     <script src="{{ asset('frontend_assets') }}/assets/js/main.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     @yield('footer_script')
     @livewireScripts
 </body>

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Library\SslCommerz\SslCommerzNotification;
 use DB;
 use Illuminate\Http\Request;
-use App\Library\SslCommerz\SslCommerzNotification;
+// use App\Library\SslCommerz\SslCommerzNotification;
 
 class SslCommerzPaymentController extends Controller
 {
@@ -31,7 +32,7 @@ class SslCommerzPaymentController extends Controller
         $post_data['tran_id'] = uniqid(); // tran_id must be unique
 
         # CUSTOMER INFORMATION
-        $post_data['cus_name'] = 'Ami Munna JUbayer er vhi';
+        $post_data['cus_name'] = 'Customer Name';
         $post_data['cus_email'] = 'customer@mail.com';
         $post_data['cus_add1'] = 'Customer Address';
         $post_data['cus_add2'] = "";

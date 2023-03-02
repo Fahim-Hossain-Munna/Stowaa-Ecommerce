@@ -71,7 +71,8 @@ class ApplyCoupon extends Component
 
     public function render()
     {
-        $alls = Addcart::all();
+        $alls = Addcart::where('customer_id' , auth()->id())->get();
+        // $add_carts = Addcart::where('customer_id' , auth()->id())->get('vendor_id');
         $shipping_items = ShippingCharge::all();
         return view('livewire.frontendproducts.apply-coupon', compact('alls','shipping_items'));
     }

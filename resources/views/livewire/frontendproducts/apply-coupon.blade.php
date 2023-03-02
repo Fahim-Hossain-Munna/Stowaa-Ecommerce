@@ -14,15 +14,19 @@
             // echo $carts;
         }
         foreach ($carts as $cart) {
-
             if($func < $cart){
                $cart_error = true;
             }
         }
+        // foreach ($all_carts as $cart) {
+        //    $id = $cart->vendor_id;
+        // }
+
         foreach ($alls as $all) {
            $subtotal += $all->unit_price*$all->quantity;
-            $id = $all->vendor_id;
+           $id = $all->vendor_id;
         }
+
         session(['subtotal' => $subtotal]);
     @endphp
 
@@ -33,9 +37,6 @@
                     <div class="coupon_form form_item mb-0">
                         <input type="text" wire:model="coupon" name="coupon" placeholder="Coupon Code...">
                         <button type="button" wire:click="applycoupon({{ $id }},{{$subtotal}})" class="btn btn_dark">Apply Coupon</button>
-                        {{-- <div class="info_icon">
-                            <i class="fas fa-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Your Info Here"></i>
-                        </div> --}}
                     </div>
 
                     <small class="text-danger">{{ $error }}</small>

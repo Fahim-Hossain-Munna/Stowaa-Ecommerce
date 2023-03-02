@@ -83,7 +83,7 @@
                             @if (session('after_discount') == 0)
                                 ${{ session('subtotal')+session('shipping_charge') }}
                             @else
-                                ${{ session('after_discount')+session('shipping_charge') }}
+                                ${{ session('after_discount') + session('shipping_charge') }}
                             @endif
                         </th>
                       </tr>

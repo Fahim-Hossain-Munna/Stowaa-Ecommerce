@@ -35,6 +35,48 @@
                                     @csrf
                                     <button class="btn btn-danger btn-sm">Logout</button>
                                 </form>
+                                <div class="row">
+                                    <div class="col-sm-12 mt-5">
+                                        <div class="card">
+                                            <div class="card-body">
+                                               <div class="row">
+                                                <div class="col-sm-3">
+                                                    <p>Total Order</p>
+                                                    <h3>{{ $totalOders->count() }}</h3>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <p>Total Order Money</p>
+                                                    <h3>{{ $totalOders->sum('product_round_final_total') }}</h3>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <p>Total Paid Amount</p>
+                                                    <h3>{{ $totalOders->where('payment_status','paid')->sum('product_round_final_total') }}</h3>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <p>Total Unpaid Amount</p>
+                                                    <h3>{{ $totalOders->where('payment_status','unpaid')->sum('product_round_final_total') }}</h3>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <p>Total Cash On Delivery</p>
+                                                    <h3>{{ $totalOders->where('payment_method','Cash On Delivery')->count() }}</h3>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <p>Total Online Payment</p>
+                                                    <h3>{{ $totalOders->where('payment_method','Online Payment')->count() }}</h3>
+                                                </div>
+                                                <div class="row mt-5">
+                                                    <div class="col-sm-6">
+                                                        <canvas id="myChart"></canvas>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <canvas id="myNewpie"></canvas>
+                                                    </div>
+                                                </div>
+                                               </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 </div>
                                 <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                                     <h5 class="text-center pb-3">Account Details</h5>
@@ -93,4 +135,63 @@
     <!-- account_section - end
     ================================================== -->
 
+@endsection
+
+@section('footer_script')
+<script>
+    const ctx = document.getElementById('myChart');
+
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Total Order', 'Total Cash On Delivery', 'Total Online Payment'],
+        datasets: [{
+          label: '# Chart of Order Activities',
+          data: [{{ $totalOders->count() }}, {{ $totalOders->where('payment_method','Cash On Delivery')->count() }}, {{ $totalOders->where('payment_method','Online Payment')->count() }}],
+          borderWidth: 1,
+          backgroundColor: [
+            '#ff99c8',
+            '#fcf6bd',
+            '#d0f4de',
+
+          ],
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  </script>
+    <script>
+    const ctxpie = document.getElementById('myNewpie');
+    new Chart(ctxpie, {
+      type: 'pie',
+      data: {
+        labels: ['Total Order Money', 'Total Paid Amount', 'Total Unpaid Amount'],
+        datasets: [{
+          label: '# Chart of Order Activities',
+          data: [{{ $totalOders->sum('product_round_final_total') }},{{ $totalOders->where('payment_status','paid')->sum('product_round_final_total') }}, {{ $totalOders->where('payment_status','unpaid')->sum('product_round_final_total') }}],
+          borderWidth: 1,
+          backgroundColor: [
+            '#6f1d1b',
+            '#bb9457',
+            '#432818',
+
+          ],
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+  </script>
 @endsection
