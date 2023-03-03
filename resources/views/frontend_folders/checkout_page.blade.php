@@ -44,7 +44,7 @@
                     </div> --}}
                     <div class="col-12">
                         <label for="inputAddress" class="form-label">Address</label>
-                        <textarea class="form-control" rows="3" name='customer_address'></textarea>
+                        <textarea class="form-control" rows="3" name='customer_address'>{{ session('for_id') }}</textarea>
                       </div>
                     <div class="col-12">
                         <label for="inputAddress" class="form-label">Order Notes</label>

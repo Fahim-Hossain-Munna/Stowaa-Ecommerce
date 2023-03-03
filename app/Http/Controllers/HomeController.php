@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
-class HomeController extends Controller
+class  HomeController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -35,4 +36,12 @@ class HomeController extends Controller
             return view('home');
         }
     }
+
+    public function invoice($id){
+        $invoice = Invoice::findOrFail($id);
+        // $pdf = Pdf::loadView('pdf.invoice');
+        // return $pdf->download( $invoice->customer_name."_".$invoice->id.'.pdf');
+        return view('pdf.invoice',compact('invoice'));
+    }
+
 }

@@ -105,24 +105,47 @@
                                     <table class="table table-bordered">
                                         <tr>
                                             <th>SL</th>
-                                            <th>Order No</th>
+                                            <th>Customer Name</th>
+                                            <th>Contact No.</th>
                                             <th>Sub Total</th>
-                                            <th>Discount</th>
-                                            <th>Delivery Charge</th>
-                                            <th>Total</th>
+                                            <th>Coupon Use</th>
+                                            <th>Discount (-)</th>
+                                            <th>Delivery Charge (+)</th>
+                                            <th>Final Total</th>
                                             <th>Action</th>
                                         </tr>
+                                        @forelse ($totalOders as $order)
+                                            @if ($order->payment_status == 'unpaid')
+                                            <tr>
+                                                <td>{{ $loop->index + 1}}</td>
+                                                <td>{{ $order->customer_name }}</td>
+                                                <td>{{ $order->customer_contact_number }}</td>
+                                                <td>{{ $order->product_subtotal }}</td>
+                                                @if ($order->coupon_name)
+                                                <td>{{ $order->coupon_name }}</td>
+                                                @else
+                                                <td class="text-center"> - </td>
+                                                @endif
+                                                @if ($order->discounted_amount)
+                                                <td>{{ $order->discounted_amount }}</td>
+                                                @else
+                                                <td class="text-center"> - </td>
+                                                @endif
+                                                <td>{{ $order->shipping_charge }}</td>
+                                                <td>{{ $order->product_round_final_total }}</td>
+                                                <td>
+                                                    <a href="{{ route('invoice',$order->id) }}" class="btn btn-info btn-sm">Download Invoice</a>
+                                                </td>
+                                            </tr>
+                                            @endif
+                                        @empty
+
                                         <tr>
-                                            <td>1</td>
-                                            <td>#120</td>
-                                            <td>52500</td>
-                                            <td>200</td>
-                                            <td>100</td>
-                                            <td>52400</td>
-                                            <td>
-                                                <a href="#" class="btn btn-primary">Download Invoice</a>
-                                            </td>
+                                            <td colspan="9" class="text-center text-danger">No Invoice Found!!</td>
                                         </tr>
+
+                                        @endforelse
+
                                     </table>
                                 </div>
 
@@ -194,4 +217,29 @@
     });
 
   </script>
+
+@if (session('transaction_success'))
+
+<script>
+    const Toast = Swal.mixin({
+toast: true,
+position: 'top-end',
+showConfirmButton: false,
+timer: 3000,
+timerProgressBar: true,
+didOpen: (toast) => {
+  toast.addEventListener('mouseenter', Swal.stopTimer)
+  toast.addEventListener('mouseleave', Swal.resumeTimer)
+}
+})
+
+Toast.fire({
+icon: 'success',
+title: '{{ session('transaction_success') }}'
+})
+</script>
+
+@endif
 @endsection
+
+

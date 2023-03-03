@@ -10,4 +10,8 @@ class Invoice extends Model
 {
     use HasFactory,SoftDeletes;
     protected $guarded = [];
+
+    public function RelationWithInvoiceManagementTable(){
+        return $this->hasOne(InvoiceProductManagement::class,'invoice_id','id');
+    }
 }

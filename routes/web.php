@@ -19,6 +19,7 @@ use App\Models\Coupon;
 Auth::routes(['register' => false]);
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/home/invoice/download/{id}', [HomeController::class, 'invoice'])->name('invoice');
 
 // website view controller
 

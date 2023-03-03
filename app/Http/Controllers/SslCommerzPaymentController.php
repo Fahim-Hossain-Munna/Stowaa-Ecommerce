@@ -25,9 +25,10 @@ class SslCommerzPaymentController extends Controller
         # Here you have to receive all the order data to initate the payment.
         # Let's say, your oder transaction informations are saving in a table called "orders"
         # In "orders" table, order unique identity is "transaction_id". "status" field contain status of the transaction, "amount" is the order amount to be paid and "currency" is for storing Site Currency which will be checked with paid currency.
-
+        session('order_total');
+        session('invoice_id');
         $post_data = array();
-        $post_data['total_amount'] = '10'; # You cant not pay less than 10
+        $post_data['total_amount'] = session('order_total'); # You cant not pay less than 10
         $post_data['currency'] = "BDT";
         $post_data['tran_id'] = uniqid(); // tran_id must be unique
 
@@ -59,7 +60,7 @@ class SslCommerzPaymentController extends Controller
         $post_data['product_profile'] = "physical-goods";
 
         # OPTIONAL PARAMETERS
-        $post_data['value_a'] = "ref001";
+        $post_data['value_a'] = session('invoice_id');
         $post_data['value_b'] = "ref002";
         $post_data['value_c'] = "ref003";
         $post_data['value_d'] = "ref004";
@@ -162,7 +163,11 @@ class SslCommerzPaymentController extends Controller
 
     public function success(Request $request)
     {
-        echo "Transaction is Successful";
+        $invoice_get_id = $request->input('value_a');
+        DB::table('invoices')->where('id',$invoice_get_id)->update([
+            'payment_status' =>'paid'
+        ]);
+        return redirect()->route('home')->with('transaction_success','Transaction is successfully Completed');
 
         $tran_id = $request->input('tran_id');
         $amount = $request->input('amount');

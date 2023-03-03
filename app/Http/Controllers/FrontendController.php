@@ -105,13 +105,13 @@ class FrontendController extends Controller
 
     public function payment(Request $request){
 
-        if($request->payment_method == 'Cash On Delivery'){
                 if(session('after_discount') == 0){
                  $odertotal =  session('subtotal')+session('shipping_charge');
+                 session(['order_total' => $odertotal]);
                }else{
                    $odertotal =  session('after_discount')+session('shipping_charge');
+                   session(['order_total' => $odertotal]);
                }
-
 
                $invoice_id = Invoice::insertGetId([
 
@@ -156,9 +156,14 @@ class FrontendController extends Controller
                    $cart->delete();
                }
 
+
+            if($request->payment_method == 'Cash On Delivery'){
                 return redirect()->route('product.add.cart');
             }else{
-                return redirect('/pay');
+                return redirect('/pay')->with([
+                    'order_total'=>$odertotal,
+                    'invoice_id' =>$invoice_id,
+                ]);
             }
     }
 

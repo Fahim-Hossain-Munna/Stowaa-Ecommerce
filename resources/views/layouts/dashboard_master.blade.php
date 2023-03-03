@@ -855,6 +855,28 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     {{-- Datatable --}}
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    @if (session('transaction_success'))
+
+    <script>
+        const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+    })
+
+    Toast.fire({
+    icon: 'success',
+    title: '{{ session('transaction_success') }}'
+    })
+    </script>
+
+@endif
     @yield('footer_script')
     @livewireScripts
 </body>
