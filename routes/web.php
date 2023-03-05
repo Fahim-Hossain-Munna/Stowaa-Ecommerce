@@ -80,6 +80,8 @@ Route::middleware(['isnotadmin'])->group(function () {
     Route::post('/products/add/color/variation', [ProductController::class, 'variation_color_add'])->name('products.color.variation');
     Route::get('/products/inventory/{id}', [ProductController::class, 'inventory_add'])->name('products.inventory.add');
     Route::post('/products/inventory/add/{id}', [ProductController::class, 'inventory_add_post'])->name('products.inventory.post');
+    Route::get('/products/track/order', [ProductController::class, 'order_track'])->name('products.order.track');
+    Route::post('/products/track/order/{id}', [ProductController::class, 'order_track_post'])->name('products.order.track.post');
     // Product end
 
     // Coupon Genarating part start

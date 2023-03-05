@@ -39,9 +39,8 @@ class  HomeController extends Controller
 
     public function invoice($id){
         $invoice = Invoice::findOrFail($id);
-        // $pdf = Pdf::loadView('pdf.invoice');
-        // return $pdf->download( $invoice->customer_name."_".$invoice->id.'.pdf');
-        return view('pdf.invoice',compact('invoice'));
+        $pdf = Pdf::loadView('pdf.invoice',compact('invoice'));
+        return $pdf->download( $invoice->customer_name."_".$invoice->id.'.pdf');
     }
 
 }

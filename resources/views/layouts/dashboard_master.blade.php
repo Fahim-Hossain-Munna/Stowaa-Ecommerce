@@ -706,6 +706,7 @@
 					<li><a href="{{ route('products.index') }}">Products List</a></li>
 					<li><a href="{{ route('products.create') }}">Products Add</a></li>
                     <li><a href="{{ route('products.variation') }}">Product Size & Color Add</a></li>
+                    <li><a href="{{ route('products.order.track') }}">Track Orders</a></li>
 
 				</ul>
 			   </li>

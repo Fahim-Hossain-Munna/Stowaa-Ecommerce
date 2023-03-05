@@ -4,7 +4,7 @@
 <html>
 
 <head>
-  <title>Your invoice for HealthPlanG purchase</title>
+  <title>Your invoice for {{ env('APP_NAME') }} purchase</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -116,7 +116,7 @@
         <![endif]-->
         <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:100%;">
           <tr>
-            <td align="center" height="6" style="background-image: linear-gradient(to right, #b91bAb, #5a3aa5); background-color: #b91bAb;" bgcolor="#b91bAb"></td>
+            <td align="center" height="6" style="background-image: linear-gradient(to right, #ffb703, #5a3aa5); background-color: #ffb703;" bgcolor="#b91bAb"></td>
           </tr>
         </table>
         <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:800px;">
@@ -233,7 +233,7 @@
                       </tr>
                       <tr>
                         <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 700; line-height: 24px; padding: 20px 10px 5px 10px;">
-                          <span style="font-style: italic;">Purchased Item</span> ({{  $invoice->RelationWithInvoiceManagementTable->quantity }})
+                          <span style="font-style: italic;">Purchased Item</span> ({{  $invoice->RelationWithInvoiceManagementTable->sum('quantity') }})
                         </td>
                         <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 600; line-height: 24px; padding: 20px 10px 5px 10px;">
                             ${{  $invoice->product_subtotal }}

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Inventory;
+use App\Models\Invoice;
+use App\Models\InvoiceProductManagement;
 use App\Models\Product;
 use App\Models\VariationColor;
 use App\Models\VariationSize;
@@ -190,5 +192,35 @@ class ProductController extends Controller
         }
         return back();
 
+    }
+
+    public function order_track(){
+        $order_products = InvoiceProductManagement::where('vendor_id',auth()->id())->get();
+        return view('dashboard_folders.products.trackorder',compact('order_products'));
+    }
+    public function order_track_post(Request $request,$id){
+         Invoice::findOrFail($id)->update([
+            'order_status' => $request->order_status,
+            'updated_at' => now()
+        ]);
+
+        if($request->order_status == 'delivered'){
+            if(Invoice::findOrFail($id)->payment_method == 'Cash On Delivery'){
+                Invoice::findOrFail($id)->update([
+                    'payment_status' => 'paid',
+                    'updated_at' => now()
+                ]);
+            }
+        }
+        if($request->order_status == 'processing'){
+            if(Invoice::findOrFail($id)->payment_method == 'Cash On Delivery'){
+                Invoice::findOrFail($id)->update([
+                    'payment_status' => 'unpaid',
+                    'updated_at' => now()
+                ]);
+            }
+        }
+
+        return back();
     }
 }

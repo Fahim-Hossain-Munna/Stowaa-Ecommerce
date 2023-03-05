@@ -133,6 +133,7 @@ class FrontendController extends Controller
 
                ]);
 
+
                foreach(Addcart::where('customer_id' , auth()->id())->get() as $cart){
                    InvoiceProductManagement::insert([
                        'invoice_id' => $invoice_id,
